@@ -1,133 +1,354 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="YAGÑA — coffee designed for presence. Roasted with restraint. Released only when it feels right." />
 
   <title>YAGÑA</title>
 
-  <!-- Playfair Display -->
+  <!-- Fonts (Playfair Display + Inter) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg:#0f0f0f;
-      --fg:#f5f5f5;
-      --muted:rgba(245,245,245,0.78);
-      --hairline:rgba(255,255,255,0.12);
+      --bg: #070707;
+      --panel: rgba(255,255,255,.035);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.62);
+      --faint: rgba(255,255,255,.36);
+      --line: rgba(255,255,255,.10);
+      --accent: rgba(255,255,255,.86);
+
+      --serif: "Playfair Display", serif;
+      --sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+      --radius: 18px;
+      --max: 980px;
     }
 
+    *{ box-sizing: border-box; }
+    html,body{ height:100%; }
     body{
       margin:0;
-      background:var(--bg);
-      color:var(--fg);
-      font-family:"Playfair Display", Georgia, serif;
-      line-height:1.6;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+      overflow-x: hidden;
     }
 
-    a{ color:inherit; text-decoration:none; }
-
-    .container{
-      max-width:900px;
-      margin:auto;
-      padding:88px 24px 70px;
+    /* Subtle “deck-like” canvas */
+    .canvas{
+      position: relative;
+      min-height: 100vh;
+      padding: 28px 18px 70px;
     }
 
-    .logo{
-      letter-spacing:0.18em;
-      font-size:14px;
-      opacity:0.75;
+    .canvas::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(900px 500px at 20% 10%, rgba(255,255,255,.07), transparent 55%),
+        radial-gradient(800px 520px at 80% 25%, rgba(255,255,255,.05), transparent 60%),
+        radial-gradient(900px 700px at 50% 95%, rgba(255,255,255,.04), transparent 60%);
+      opacity: .9;
+    }
+
+    /* Faux grain (no images) */
+    .canvas::after{
+      content:"";
+      position: fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        repeating-radial-gradient(circle at 10% 20%, rgba(255,255,255,.018) 0 1px, transparent 1px 6px),
+        repeating-radial-gradient(circle at 90% 80%, rgba(255,255,255,.015) 0 1px, transparent 1px 7px);
+      opacity:.35;
+      mix-blend-mode: overlay;
+    }
+
+    .wrap{
+      position: relative;
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    /* Top bar */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 6px 22px;
+    }
+
+    .brand{
+      font-family: var(--serif);
+      letter-spacing: .12em;
+      font-size: 14px;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    nav{
+      display:flex;
+      gap: 14px;
+      align-items:center;
+      font-size: 13px;
+    }
+    nav a{
+      color: var(--muted);
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: .2s ease;
+    }
+    nav a:hover{
+      color: var(--text);
+      border-color: var(--line);
+      background: rgba(255,255,255,.03);
+    }
+
+    /* Hero */
+    .hero{
+      padding: 54px 6px 34px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
     }
 
     h1{
-      font-size:44px;
-      font-weight:400;
-      margin:44px 0 18px;
+      margin: 0 0 12px;
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(44px, 6vw, 74px);
+      letter-spacing: -0.02em;
+      line-height: 1.02;
+    }
+
+    .lead{
+      margin: 0;
+      max-width: 56ch;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .ctaRow{
+      margin-top: 26px;
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items:center;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      text-decoration:none;
+      font-size: 13px;
+      transition: .2s ease;
+      backdrop-filter: blur(10px);
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.05);
+    }
+    .btn small{ color: var(--faint); font-weight: 400; }
+
+    /* Sections */
+    .section{
+      padding: 36px 6px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .kicker{
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin: 0 0 10px;
+      font-family: var(--sans);
     }
 
     h2{
-      font-size:26px;
-      font-weight:400;
-      margin:80px 0 14px;
+      margin: 0 0 10px;
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(22px, 3vw, 30px);
+      letter-spacing: -0.01em;
     }
 
-    p{
-      font-size:18px;
-      color:var(--muted);
-      max-width:720px;
-      margin:10px 0;
+    .copy{
+      margin: 0;
+      max-width: 70ch;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.85;
     }
 
-    .divider{
-      margin:60px 0;
-      border-top:1px solid var(--hairline);
+    .lines{
+      margin-top: 18px;
+      padding: 18px 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+    .lines p{
+      margin: 0;
+      color: rgba(255,255,255,.78);
+      font-family: var(--serif);
+      font-size: 16px;
+      line-height: 1.8;
     }
 
+    /* Footer */
     footer{
-      margin-top:120px;
-      font-size:14px;
-      opacity:0.6;
+      padding: 26px 6px 0;
+      display:flex;
+      justify-content: space-between;
+      align-items:flex-end;
+      gap: 12px;
+      color: var(--faint);
+      font-size: 12px;
+    }
+
+    .sig{
+      font-family: var(--serif);
+      color: rgba(255,255,255,.70);
+      letter-spacing: .02em;
+    }
+
+    /* Anchor spacing */
+    .anchor{
+      scroll-margin-top: 90px;
+    }
+
+    @media (max-width: 640px){
+      header{ padding-bottom: 14px; }
+      nav{ gap: 8px; }
+      nav a{ padding: 7px 9px; }
+      .hero{ padding: 40px 6px 28px; }
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
+  <div class="canvas">
+    <div class="wrap">
 
-    <div class="logo">YAGÑA</div>
+      <header>
+        <div class="brand">YAGÑA</div>
+        <nav aria-label="Primary">
+          <a href="#philosophy">Philosophy</a>
+          <a href="#coffee">The Coffee</a>
+          <a href="#object">The Object</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
 
-    <h1>Still brewing.</h1>
+      <main>
 
-    <p>
-      YAGÑA is not designed for speed.<br>
-      It is designed for presence.
-    </p>
+        <section class="hero" id="top">
+          <h1>Still brewing.</h1>
+          <p class="lead">
+            YAGÑA is not designed for speed.<br/>
+            It is designed for presence.
+          </p>
 
-    <div class="divider"></div>
+          <div class="ctaRow">
+            <a class="btn" href="#contact">Drop a line <small>→</small></a>
+            <a class="btn" href="mailto:info@yagna.pl">info@yagna.pl <small>mailto</small></a>
+          </div>
+        </section>
 
-    <h2>The Philosophy</h2>
-    <p>
-      We believe coffee is not a product to be pushed,
-      but a process to be respected.
-    </p>
-    <p>
-      Less noise. Less urgency.<br>
-      More intention.
-    </p>
+        <section class="section anchor" id="philosophy">
+          <p class="kicker">01</p>
+          <h2>The Philosophy</h2>
+          <p class="copy">
+            We believe coffee is not a product to be pushed, but a process to be respected.
+            Less noise. Less urgency. More intention.
+          </p>
 
-    <div class="divider"></div>
+          <div class="lines">
+            <p>
+              Less performance.<br/>
+              More pause.
+            </p>
+          </div>
+        </section>
 
-    <h2>The Coffee</h2>
-    <p>
-      Our coffee comes from India.
-    </p>
-    <p>
-      It is roasted with restraint,
-      packed without excess,
-      and released only when it feels right.
-    </p>
+        <section class="section anchor" id="coffee">
+          <p class="kicker">02</p>
+          <h2>The Coffee</h2>
+          <p class="copy">
+            Our coffee comes from India.
+            It is roasted with restraint, packed without excess, and released only when it feels right.
+          </p>
 
-    <div class="divider"></div>
+          <div class="lines">
+            <p>
+              Not louder.<br/>
+              Just clearer.
+            </p>
+          </div>
+        </section>
 
-    <h2>The Object</h2>
-    <p>
-      Designed to be held, not advertised.
-    </p>
-    <p>
-      Material over gloss.<br>
-      Silence over instruction.<br>
-      Presence over persuasion.
-    </p>
+        <section class="section anchor" id="object">
+          <p class="kicker">03</p>
+          <h2>The Object</h2>
+          <p class="copy">
+            Designed to be held, not advertised.
+          </p>
 
-    <div class="divider"></div>
+          <div class="lines">
+            <p>
+              Material over gloss.<br/>
+              Silence over instruction.<br/>
+              Presence over persuasion.
+            </p>
+          </div>
+        </section>
 
-    <footer>
-      Still brewing,<br>
-      YAGÑA
-    </footer>
+        <section class="section anchor" id="contact">
+          <p class="kicker">04</p>
+          <h2>Contact</h2>
+          <p class="copy">
+            If you’re curious, write to us.
+            We reply when the cup is warm and the answer is honest.
+          </p>
 
+          <div class="ctaRow" style="margin-top:18px;">
+            <a class="btn" href="mailto:info@yagna.pl?subject=Still%20brewing.">Email <small>info@yagna.pl</small></a>
+            <a class="btn" href="#top">Back to top <small>↑</small></a>
+          </div>
+        </section>
+
+      </main>
+
+      <footer>
+        <div>© <span id="y"></span> YAGÑA</div>
+        <div class="sig">Still brewing.</div>
+      </footer>
+
+    </div>
   </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
