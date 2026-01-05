@@ -3,352 +3,209 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="YAGÑA — coffee designed for presence. Roasted with restraint. Released only when it feels right." />
+  <meta name="description" content="YAGÑĀ — coffee designed for presence." />
+  <title>YAGÑĀ</title>
 
-  <title>YAGÑA</title>
-
-  <!-- Fonts (Playfair Display + Inter) -->
+  <!-- Deck-like type: Playfair Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg: #070707;
-      --panel: rgba(255,255,255,.035);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.62);
-      --faint: rgba(255,255,255,.36);
-      --line: rgba(255,255,255,.10);
-      --accent: rgba(255,255,255,.86);
+      --bg: #070707;                  /* deck black */
+      --ink: rgba(255,255,255,.92);   /* deck white */
+      --muted: rgba(255,255,255,.70);
+      --faint: rgba(255,255,255,.46);
+      --line: rgba(255,255,255,.12);
 
       --serif: "Playfair Display", serif;
-      --sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-
-      --radius: 18px;
-      --max: 980px;
+      --max: 920px;
     }
 
-    *{ box-sizing: border-box; }
-    html,body{ height:100%; }
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
     body{
       margin:0;
       background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
+      color: var(--ink);
+      font-family: var(--serif);
       -webkit-font-smoothing: antialiased;
-      text-rendering: geometricPrecision;
-      overflow-x: hidden;
+      text-rendering: optimizeLegibility;
     }
 
-    /* Subtle “deck-like” canvas */
-    .canvas{
-      position: relative;
-      min-height: 100vh;
-      padding: 28px 18px 70px;
-    }
-
-    .canvas::before{
+    /* subtle vignette + grain (like a slide texture) */
+    body::before{
       content:"";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
+      position:fixed; inset:0;
       background:
-        radial-gradient(900px 500px at 20% 10%, rgba(255,255,255,.07), transparent 55%),
-        radial-gradient(800px 520px at 80% 25%, rgba(255,255,255,.05), transparent 60%),
-        radial-gradient(900px 700px at 50% 95%, rgba(255,255,255,.04), transparent 60%);
-      opacity: .9;
-    }
-
-    /* Faux grain (no images) */
-    .canvas::after{
-      content:"";
-      position: fixed;
-      inset:0;
+        radial-gradient(900px 520px at 55% 18%, rgba(255,255,255,.08), transparent 60%),
+        radial-gradient(900px 520px at 20% 78%, rgba(255,255,255,.05), transparent 62%),
+        radial-gradient(900px 520px at 85% 80%, rgba(255,255,255,.05), transparent 62%);
       pointer-events:none;
-      background-image:
-        repeating-radial-gradient(circle at 10% 20%, rgba(255,255,255,.018) 0 1px, transparent 1px 6px),
-        repeating-radial-gradient(circle at 90% 80%, rgba(255,255,255,.015) 0 1px, transparent 1px 7px);
-      opacity:.35;
-      mix-blend-mode: overlay;
+    }
+    body::after{
+      content:"";
+      position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+      opacity:.10;
+      mix-blend-mode:overlay;
+      pointer-events:none;
     }
 
     .wrap{
-      position: relative;
       max-width: var(--max);
       margin: 0 auto;
-    }
-
-    /* Top bar */
-    header{
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 14px 6px 22px;
+      padding: 72px 22px 56px;
     }
 
     .brand{
-      font-family: var(--serif);
-      letter-spacing: .12em;
-      font-size: 14px;
-      color: var(--accent);
-      text-transform: uppercase;
-    }
-
-    nav{
-      display:flex;
-      gap: 14px;
-      align-items:center;
-      font-size: 13px;
-    }
-    nav a{
-      color: var(--muted);
-      text-decoration: none;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      transition: .2s ease;
-    }
-    nav a:hover{
-      color: var(--text);
-      border-color: var(--line);
-      background: rgba(255,255,255,.03);
-    }
-
-    /* Hero */
-    .hero{
-      padding: 54px 6px 34px;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-
-    h1{
-      margin: 0 0 12px;
-      font-family: var(--serif);
-      font-weight: 500;
-      font-size: clamp(44px, 6vw, 74px);
-      letter-spacing: -0.02em;
-      line-height: 1.02;
-    }
-
-    .lead{
-      margin: 0;
-      max-width: 56ch;
-      color: var(--muted);
       font-size: 16px;
-      line-height: 1.75;
-    }
-
-    .ctaRow{
-      margin-top: 26px;
-      display:flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items:center;
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      text-decoration:none;
-      font-size: 13px;
-      transition: .2s ease;
-      backdrop-filter: blur(10px);
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,255,255,.18);
-      background: rgba(255,255,255,.05);
-    }
-    .btn small{ color: var(--faint); font-weight: 400; }
-
-    /* Sections */
-    .section{
-      padding: 36px 6px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .kicker{
-      font-size: 12px;
       letter-spacing: .18em;
       text-transform: uppercase;
-      color: var(--faint);
-      margin: 0 0 10px;
-      font-family: var(--sans);
-    }
-
-    h2{
-      margin: 0 0 10px;
-      font-family: var(--serif);
-      font-weight: 500;
-      font-size: clamp(22px, 3vw, 30px);
-      letter-spacing: -0.01em;
-    }
-
-    .copy{
-      margin: 0;
-      max-width: 70ch;
       color: var(--muted);
-      font-size: 15px;
-      line-height: 1.85;
+      margin: 0 0 56px;
     }
 
-    .lines{
-      margin-top: 18px;
-      padding: 18px 18px;
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: var(--panel);
+    .hero{
+      margin: 0 0 36px;
     }
-    .lines p{
+    .hero h1{
+      font-weight: 500;
+      font-size: clamp(44px, 6vw, 78px);
+      line-height: 1.02;
+      margin: 0 0 14px;
+      letter-spacing: .01em;
+    }
+    .hero p{
       margin: 0;
-      color: rgba(255,255,255,.78);
-      font-family: var(--serif);
-      font-size: 16px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .rule{
+      height:1px;
+      background: var(--line);
+      margin: 44px 0;
+    }
+
+    section{
+      padding: 0 0 46px;
+    }
+    section:last-of-type{ padding-bottom: 0; }
+
+    .kicker{
+      display:block;
+      font-size: 13px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin: 0 0 14px;
+    }
+    h2{
+      font-weight: 500;
+      font-size: 30px;
+      margin: 0 0 12px;
+      letter-spacing: .01em;
+    }
+    .copy{
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .quiet-link{
+      display:inline-block;
+      margin-top: 18px;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,.22);
+      padding-bottom: 2px;
+      opacity:.92;
+    }
+    .quiet-link:hover{
+      opacity: 1;
+      border-bottom-color: rgba(255,255,255,.45);
+    }
+
+    footer{
+      margin-top: 56px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+      color: var(--faint);
+      font-size: 14px;
       line-height: 1.8;
     }
 
-    /* Footer */
-    footer{
-      padding: 26px 6px 0;
-      display:flex;
-      justify-content: space-between;
-      align-items:flex-end;
-      gap: 12px;
-      color: var(--faint);
-      font-size: 12px;
-    }
-
-    .sig{
-      font-family: var(--serif);
-      color: rgba(255,255,255,.70);
-      letter-spacing: .02em;
-    }
-
-    /* Anchor spacing */
-    .anchor{
-      scroll-margin-top: 90px;
-    }
-
-    @media (max-width: 640px){
-      header{ padding-bottom: 14px; }
-      nav{ gap: 8px; }
-      nav a{ padding: 7px 9px; }
-      .hero{ padding: 40px 6px 28px; }
+    /* Mobile tightening */
+    @media (max-width: 520px){
+      .wrap{ padding-top: 58px; }
+      .brand{ margin-bottom: 42px; }
+      .rule{ margin: 34px 0; }
+      h2{ font-size: 26px; }
+      .copy{ font-size: 17px; }
     }
   </style>
 </head>
 
 <body>
-  <div class="canvas">
-    <div class="wrap">
+  <main class="wrap">
+    <div class="brand">YAGÑĀ</div>
 
-      <header>
-        <div class="brand">YAGÑA</div>
-        <nav aria-label="Primary">
-          <a href="#philosophy">Philosophy</a>
-          <a href="#coffee">The Coffee</a>
-          <a href="#object">The Object</a>
-          <a href="#contact">Contact</a>
-        </nav>
-      </header>
-
-      <main>
-
-        <section class="hero" id="top">
-          <h1>Still brewing.</h1>
-          <p class="lead">
-            YAGÑA is not designed for speed.<br/>
-            It is designed for presence.
-          </p>
-
-          <div class="ctaRow">
-            <a class="btn" href="#contact">Drop a line <small>→</small></a>
-            <a class="btn" href="mailto:info@yagna.pl">info@yagna.pl <small>mailto</small></a>
-          </div>
-        </section>
-
-        <section class="section anchor" id="philosophy">
-          <p class="kicker">01</p>
-          <h2>The Philosophy</h2>
-          <p class="copy">
-            We believe coffee is not a product to be pushed, but a process to be respected.
-            Less noise. Less urgency. More intention.
-          </p>
-
-          <div class="lines">
-            <p>
-              Less performance.<br/>
-              More pause.
-            </p>
-          </div>
-        </section>
-
-        <section class="section anchor" id="coffee">
-          <p class="kicker">02</p>
-          <h2>The Coffee</h2>
-          <p class="copy">
-            Our coffee comes from India.
-            It is roasted with restraint, packed without excess, and released only when it feels right.
-          </p>
-
-          <div class="lines">
-            <p>
-              Not louder.<br/>
-              Just clearer.
-            </p>
-          </div>
-        </section>
-
-        <section class="section anchor" id="object">
-          <p class="kicker">03</p>
-          <h2>The Object</h2>
-          <p class="copy">
-            Designed to be held, not advertised.
-          </p>
-
-          <div class="lines">
-            <p>
-              Material over gloss.<br/>
-              Silence over instruction.<br/>
-              Presence over persuasion.
-            </p>
-          </div>
-        </section>
-
-        <section class="section anchor" id="contact">
-          <p class="kicker">04</p>
-          <h2>Contact</h2>
-          <p class="copy">
-            If you’re curious, write to us.
-            We reply when the cup is warm and the answer is honest.
-          </p>
-
-          <div class="ctaRow" style="margin-top:18px;">
-            <a class="btn" href="mailto:info@yagna.pl?subject=Still%20brewing.">Email <small>info@yagna.pl</small></a>
-            <a class="btn" href="#top">Back to top <small>↑</small></a>
-          </div>
-        </section>
-
-      </main>
-
-      <footer>
-        <div>© <span id="y"></span> YAGÑA</div>
-        <div class="sig">Still brewing.</div>
-      </footer>
-
+    <!-- Homepage: still brewing + basic info -->
+    <div class="hero">
+      <h1>Still brewing.</h1>
+      <p>YAGÑĀ is not designed for speed.<br>
+         It is designed for presence.</p>
+      <a class="quiet-link" href="mailto:info@yagna.pl">Drop a line →</a>
     </div>
-  </div>
 
-  <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-  </script>
+    <div class="rule"></div>
+
+    <!-- Philosophy -->
+    <section id="philosophy">
+      <span class="kicker">01</span>
+      <h2>The Philosophy</h2>
+      <p class="copy">
+        We believe coffee is not a product to be pushed, but a process to be respected.<br>
+        Less noise. Less urgency.<br>
+        More intention.
+      </p>
+    </section>
+
+    <div class="rule"></div>
+
+    <!-- Coffee (mention India, not specific regions) -->
+    <section id="coffee">
+      <span class="kicker">02</span>
+      <h2>The Coffee</h2>
+      <p class="copy">
+        Our coffee comes from India.<br>
+        It is roasted with restraint, packed without excess,
+        and released only when it feels right.
+      </p>
+    </section>
+
+    <div class="rule"></div>
+
+    <!-- Object -->
+    <section id="object">
+      <span class="kicker">03</span>
+      <h2>The Object</h2>
+      <p class="copy">
+        Designed to be held, not advertised.<br>
+        Material over gloss.<br>
+        Silence over instruction.<br>
+        Presence over persuasion.
+      </p>
+    </section>
+
+    <footer>
+      Still brewing,<br>
+      YAGÑĀ
+    </footer>
+  </main>
 </body>
 </html>
