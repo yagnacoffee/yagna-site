@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>YAGÑA</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #1b1a18;
+  --text: #e9e6df;
+  --muted: rgba(233,230,223,0.6);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Playfair Display", serif;
+}
+
+/* Logo */
+header {
+  position: fixed;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+/* Generic full-screen moment */
+.moment {
+  min-height: 100vh;
+  padding: 140px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Typography */
+.huge {
+  font-size: clamp(44px, 6vw, 68px);
+  font-weight: 500;
+}
+
+.medium {
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 400;
+}
+
+.body {
+  font-size: 18px;
+  line-height: 1.7;
+  max-width: 640px;
+  color: var(--muted);
+}
+
+/* Arrow */
+.arrow {
+  margin-top: 40px;
+  font-size: 22px;
+  color: var(--muted);
+  text-decoration: none;
+  animation: float 2.8s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(8px); opacity: 0.9; }
+}
+
+/* Spacing-only moments */
+.spacer {
+  padding: 180px 24px;
+}
+</style>
+</head>
+
+<body>
+
+<header>YAGÑA</header>
+
+<!-- PAGE 1 -->
+<section class="moment">
+  <div class="huge">Still brewing</div>
+  <a href="#philosophy" class="arrow" aria-label="Scroll">↓</a>
+</section>
+
+<!-- PHILOSOPHY -->
+<section id="philosophy" class="moment">
+  <div class="medium">Less noise. Less urgency.<br>More intention.</div>
+</section>
+
+<section class="spacer">
+  <p class="body">
+    We believe coffee is not a product to be pushed, but a process to be respected.
+    Every decision is restraint. Every release is deliberate.
+  </p>
+</section>
+
+<section class="moment">
+  <p class="body">Less performance.<br>More pause.</p>
+</section>
+
+<section class="spacer">
+  <p class="body">
+    YAGÑA is built for people who choose calm over clutter — and taste over timelines.
+  </p>
+</section>
+
+<!-- THREE EXPRESSIONS -->
+<section class="moment">
+  <div class="medium">
+    Roasted with restraint.<br>
+    Released only when it feels right.
+  </div>
+</section>
+
+<section class="spacer">
+  <p class="body">
+    Our coffee comes from India. It is packed without excess — focused on clarity,
+    balance, and the kind of finish that stays quiet.
+  </p>
+</section>
+
+<section class="moment">
+  <p class="body">
+    Clean profiles.<br>
+    Minimal roast.<br>
+    A cup that feels composed.
+  </p>
+</section>
+
+<section class="moment">
+  <p class="body">
+    Small releases.<br>
+    Never rushed.<br>
+    Never repeated the same way.
+  </p>
+</section>
+
+<!-- NOT FOR -->
+<section class="moment">
+  <div class="medium">YAGÑA is not for everyone.</div>
+</section>
+
+<section class="spacer">
+  <p class="body">
+    It is not for speed.<br>
+    Not for trends.<br>
+    Not for noise.<br>
+    Not for scale without meaning.
+  </p>
+</section>
+
+<!-- FINAL -->
+<section class="moment">
+  <p class="body">
+    Still brewing.<br><br>
+    pause@yagna.pl
+  </p>
+</section>
+
+</body>
+</html>
