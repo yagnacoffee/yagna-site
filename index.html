@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YAGÑA</title>
+
+  <!-- Playfair Display (deck font) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Deck colours */
+      --bg: #1b1a18;
+      --text: #e9e6df;
+      --muted: rgba(233,230,223,0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Playfair Display", serif;
+    }
+
+    /* Logo */
+    header {
+      position: fixed;
+      top: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    /* Center stage */
+    main {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      text-align: center;
+    }
+
+    .title {
+      font-size: clamp(44px, 6vw, 68px);
+      font-weight: 500;
+    }
+
+    .arrow {
+      font-size: 20px;
+      color: var(--muted);
+      text-decoration: none;
+      animation: breathe 2.8s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% {
+        opacity: 0.3;
+        transform: translateY(0);
+      }
+      50% {
+        opacity: 0.85;
+        transform: translateY(6px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>YAGÑA</header>
+
+  <main>
+    <div class="title">Still brewing</div>
+
+    <a href="philosophy.html"
+       class="arrow"
+       aria-label="Enter the philosophy">
+       ↓
+    </a>
+  </main>
+
+</body>
+</html>
