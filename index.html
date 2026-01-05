@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>YAGÑA</title>
+
+  <!-- Typography (deck-like serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* Deck vibe: warm paper + soft graphite */
+      --paper: #f2ede4;
+      --ink: #3d3a34;
+      --ink-soft: rgba(61,58,52,.62);
+      --ink-faint: rgba(61,58,52,.40);
+      --max: 920px;
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    html{ scroll-behavior:smooth; }
+    body{
+      min-height:100%;
+      background: var(--paper);
+      color: var(--ink);
+      font-family:"Playfair Display", serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+
+      /* gentle “deck” paging without feeling boxed */
+      scroll-snap-type: y proximity;
+      overflow-x:hidden;
+    }
+
+    /* Paper grain (no image files needed) */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.18;
+      mix-blend-mode:multiply;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(0,0,0,.06), transparent 45%),
+        radial-gradient(circle at 86% 22%, rgba(0,0,0,.05), transparent 52%),
+        radial-gradient(circle at 40% 88%, rgba(0,0,0,.05), transparent 55%),
+        repeating-linear-gradient(0deg, rgba(0,0,0,.018), rgba(0,0,0,.018) 1px, transparent 1px, transparent 3px),
+        repeating-linear-gradient(90deg, rgba(0,0,0,.012), rgba(0,0,0,.012) 1px, transparent 1px, transparent 4px);
+      filter: blur(.2px);
+    }
+
+    main{ position:relative; }
+
+    section{
+      scroll-snap-align:start;
+      padding: min(10vh,90px) 22px;
+    }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      text-align:center;
+    }
+
+    /* Type system */
+    .logo{
+      font-size: clamp(56px, 7vw, 92px);
+      letter-spacing: .04em;
+      font-weight: 600;
+    }
+    .sublogo{
+      margin-top: 10px;
+      font-size: clamp(14px, 2.1vw, 20px);
+      color: var(--ink-soft);
+      letter-spacing: .06em;
+      font-style: italic;
+    }
+
+    .kicker{
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-size: 12px;
+      color: var(--ink-faint);
+      margin-bottom: 14px;
+    }
+
+    .big{
+      font-size: clamp(28px, 4vw, 54px);
+      font-weight: 500;
+      line-height: 1.18;
+    }
+
+    .mid{
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--ink-soft);
+      margin-top: 16px;
+    }
+
+    .small{
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--ink-soft);
+      margin-top: 14px;
+    }
+
+    .stack-tight{ margin-top: 22px; }
+    .stack{ margin-top: 34px; }
+    .stack-loose{ margin-top: 54px; }
+
+    /* Hero layout */
+    .hero{
+      min-height: 88vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding-top: min(12vh,110px);
+      padding-bottom: min(10vh,90px);
+    }
+    .hero-inner{
+      width:100%;
+      max-width: var(--max);
+      margin:0 auto;
+      text-align:center;
+    }
+
+    .still{
+      margin-top: clamp(28px, 4vh, 44px);
+      font-size: clamp(22px, 3.2vw, 34px);
+      color: var(--ink-soft);
+      letter-spacing: .02em;
+    }
+
+    /* Arrow */
+    .down{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-top: 18px;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      text-decoration:none;
+      color: var(--ink);
+      opacity: .75;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .down:hover{ opacity: 1; transform: translateY(2px); }
+    .down span{
+      font-size: 22px;
+      animation: breathe 2.6s ease-in-out infinite;
+    }
+    @keyframes breathe{
+      0%,100%{ opacity:.35; transform: translateY(0); }
+      50%{ opacity:.9; transform: translateY(6px); }
+    }
+
+    /* “Deck page” feel without boxes */
+    .page{
+      padding-top: min(9vh,80px);
+      padding-bottom: min(9vh,80px);
+    }
+    .page .wrap{ max-width: 860px; }
+
+    /* Three columns (for “levels”) */
+    .triple{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+    .triple .cell{
+      padding: 10px 6px;
+    }
+    .triple .cell .t{
+      font-size: 18px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .triple .cell .s{
+      margin-top: 8px;
+      font-size: 16px;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+
+    @media (max-width: 720px){
+      .triple{ grid-template-columns: 1fr; gap: 10px; }
+    }
+
+    /* Bottom close */
+    .endline{
+      margin-top: 14px;
+      font-size: 18px;
+      color: var(--ink);
+      letter-spacing: .02em;
+    }
+    .email{
+      display:inline-block;
+      margin-top: 18px;
+      font-size: 18px;
+      color: var(--ink);
+      text-decoration:none;
+    }
+    .email:hover{ text-decoration: underline; }
+
+    /* Keep groups “together” */
+    .group{
+      padding-top: min(8vh,70px);
+      padding-bottom: min(8vh,70px);
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+
+    <!-- PAGE 1 (Deck feel: big logo centered + still brewing + arrow) -->
+    <section class="hero" id="top">
+      <div class="hero-inner">
+        <div class="logo">YAGÑA</div>
+        <div class="sublogo">Crafted philosophy. Expressed through coffee.</div>
+
+        <div class="still">Still brewing</div>
+
+        <!-- working arrow -->
+        <a class="down" href="#philosophy" aria-label="Scroll to philosophy">
+          <span>↓</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- PHILOSOPHY (pages 2,3,11,12,13 grouped together) -->
+    <section class="group page" id="philosophy">
+      <div class="wrap">
+        <div class="kicker">The Philosophy</div>
+
+        <div class="big">Coffee is not a product.<br>It is a ritual.</div>
+        <div class="mid">YAGÑA is built on intention, restraint,<br>and reverence for origin.</div>
+
+        <div class="stack-tight">
+          <div class="big" style="font-size:clamp(22px,3.2vw,40px); font-weight:500; color:var(--ink-soft);">
+            We stand against noise.<br>
+            Against excess.<br>
+            Against coffee as commodity.
+          </div>
+          <div class="small">
+            YAGÑA chooses clarity over clutter.<br>
+            Depth over volume.<br>
+            Intention over trend.
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="big" style="font-size:clamp(22px,3.2vw,38px);">The Object</div>
+          <div class="mid" style="margin-top:10px;">Designed to be held, not advertised.</div>
+          <div class="small">
+            Material over gloss.<br>
+            Silence over instruction.<br>
+            Presence over persuasion.
+          </div>
+          <div class="small" style="font-style:italic; color:var(--ink-faint); margin-top:18px;">
+            What remains is intentional.
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="big" style="font-size:clamp(22px,3.2vw,38px);">The Act</div>
+          <div class="mid" style="margin-top:10px;">This is not branding. It is an act, repeated carefully.</div>
+          <div class="small">
+            What matters is not scale,<br>
+            but what survives repetition.
+          </div>
+          <div class="small" style="font-style:italic; color:var(--ink-faint); margin-top:18px;">
+            Held in form. Released with restraint.
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="big" style="font-size:clamp(20px,3vw,34px); font-weight:500; color:var(--ink-soft);">
+            What is preserved is not flavor alone.<br>
+            It is pace.<br>
+            Judgement.<br>
+            Restraint.<br>
+            Everything else is secondary.
+          </div>
+          <div class="small" style="font-style:italic; color:var(--ink-faint); margin-top:18px;">
+            By design.
+          </div>
+        </div>
+
+        <div class="stack-loose">
+          <a class="down" href="#coffee" aria-label="Scroll to coffee">
+            <span>↓</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- COFFEE + ROAST (pages 6,7,8 but with only India) -->
+    <section class="group page" id="coffee">
+      <div class="wrap">
+        <div class="kicker">The Coffee</div>
+
+        <div class="big">100% Arabica. Washed. Roasted with intent.</div>
+        <div class="small" style="margin-top:18px;">
+          Single-origin Arabica beans from India.<br>
+          Processed for clarity, not excess.<br>
+          Roasted to preserve structure, not intensity.
+        </div>
+
+        <div class="stack">
+          <div class="big" style="font-size:clamp(20px,3vw,34px); font-weight:500; color:var(--ink-soft);">
+            Origin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Process
+          </div>
+          <div class="small" style="margin-top:10px; color:var(--ink-faint);">
+            India &nbsp;&nbsp;&nbsp; — &nbsp;&nbsp;&nbsp; India
+          </div>
+          <div class="small" style="font-style:italic; color:var(--ink-faint); margin-top:18px;">
+            From origin to expression.
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="big" style="font-size:clamp(22px,3.2vw,38px);">Roast Philosophy</div>
+          <div class="mid" style="margin-top:10px;">Roasting with intention, guided by restraint.</div>
+          <div class="small">
+            — We reject over-roasting as a compromise of flavor.<br>
+            — Each roast is a balance of character and clarity.<br>
+            — Deliberation defines our profile, not trends.
+          </div>
+        </div>
+
+        <div class="stack-loose">
+          <a class="down" href="#expressions" aria-label="Scroll to expressions">
+            <span>↓</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- THREE EXPRESSIONS (pages 4,5,10 grouped) -->
+    <section class="group page" id="expressions">
+      <div class="wrap">
+        <div class="kicker">The Three Levels</div>
+
+        <div class="big">One ritual.<br>Three expressions of intent.<br>One preserved for the collector.</div>
+
+        <div class="triple">
+          <div class="cell">
+            <div class="t">Ritual</div>
+            <div class="s">The Everyday Philosophy</div>
+          </div>
+          <div class="cell">
+            <div class="t">Intent</div>
+            <div class="s">The Crafted Expression</div>
+          </div>
+          <div class="cell">
+            <div class="t">Collector</div>
+            <div class="s">The Sacred Object</div>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="big" style="font-size:clamp(20px,3vw,34px); font-weight:500; color:var(--ink-soft);">
+            What is essential is seen.<br>
+            What is necessary is revealed.
+          </div>
+          <div class="small" style="margin-top:18px;">
+            Restraint &nbsp;&nbsp;&nbsp;&nbsp; Responsibility
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="big" style="font-size:clamp(22px,3.2vw,38px);">Growth &amp; Availability</div>
+          <div class="mid" style="margin-top:10px;">Not scaled for speed — designed for consistency.</div>
+
+          <div class="triple" style="margin-top:18px;">
+            <div class="cell"><div class="t">Intentional.</div></div>
+            <div class="cell"><div class="t">Conditional.</div></div>
+            <div class="cell"><div class="t">Exceptional.</div></div>
+          </div>
+
+          <div class="small" style="font-style:italic; color:var(--ink-faint); margin-top:18px;">
+            Growth follows process, not pressure.
+          </div>
+        </div>
+
+        <div class="stack-loose">
+          <a class="down" href="#notfor" aria-label="Scroll to not for everyone">
+            <span>↓</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOT FOR EVERYONE (page 9) -->
+    <section class="group page" id="notfor">
+      <div class="wrap">
+        <div class="big" style="font-size:clamp(26px,3.8vw,44px);">YAGÑA<br>Is Not For Everyone</div>
+
+        <div class="small" style="margin-top:22px;">
+          Not for those who rush.<br>
+          Not for those who mistake intensity for integrity.<br>
+          Not for those who want more — louder, faster.
+        </div>
+
+        <div class="small" style="margin-top:26px; font-style:italic; color:var(--ink-faint);">
+          It is for those who notice.
+        </div>
+
+        <div class="stack-loose">
+          <a class="down" href="#end" aria-label="Scroll to end">
+            <span>↓</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- END (page 14 + email) -->
+    <section class="page" id="end">
+      <div class="wrap">
+        <div class="big" style="font-size:clamp(22px,3.2vw,40px); font-weight:500; color:var(--ink-soft);">
+          Less is done<br>so more remains.
+        </div>
+
+        <a class="email" href="mailto:pause@yagna.pl">pause@yagna.pl</a>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
