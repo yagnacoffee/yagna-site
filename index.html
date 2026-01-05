@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YAGÑA</title>
+
+  <!-- Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* Deck colours – tweak if your PDF shows slightly different */
+      --bg:#1b1a18;
+      --text:#e9e6df;
+      --muted: rgba(233,230,223,.62);
+      --line: rgba(233,230,223,.18);
+      --panel: rgba(233,230,223,.06);
+      --shadow: rgba(0,0,0,.55);
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    html{ scroll-behavior:smooth; }
+    body{
+      background:var(--bg);
+      color:var(--text);
+      font-family:"Playfair Display", serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+
+    /* Fixed logo */
+    header{
+      position:fixed;
+      top:28px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:20;
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      opacity:.95;
+      pointer-events:none;
+    }
+
+    /* Each “page” */
+    section{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 110px 22px 70px;
+    }
+
+    /* Subtle deck-like glow (classy, not “webby”) */
+    .stage{
+      width:min(980px, 100%);
+      position:relative;
+    }
+    .stage::before{
+      content:"";
+      position:absolute;
+      inset:-40px -20px -40px -20px;
+      background:
+        radial-gradient(1200px 600px at 50% 20%, rgba(233,230,223,.08), transparent 60%),
+        radial-gradient(900px 500px at 20% 60%, rgba(233,230,223,.05), transparent 55%),
+        radial-gradient(900px 500px at 80% 70%, rgba(233,230,223,.05), transparent 55%);
+      filter: blur(2px);
+      opacity:.9;
+      z-index:-1;
+    }
+
+    /* Typography */
+    .kicker{
+      font-size:14px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--muted);
+      margin-bottom:18px;
+    }
+
+    .h1{
+      font-size: clamp(44px, 6vw, 74px);
+      font-weight:500;
+      line-height:1.05;
+      margin-bottom:18px;
+      text-shadow: 0 10px 30px var(--shadow);
+    }
+
+    .h2{
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight:500;
+      line-height:1.15;
+      margin-bottom:18px;
+      text-shadow: 0 8px 22px var(--shadow);
+    }
+
+    .p{
+      font-size: clamp(16px, 2vw, 20px);
+      line-height:1.6;
+      color:rgba(233,230,223,.88);
+      max-width: 70ch;
+    }
+
+    .divider{
+      height:1px;
+      background:var(--line);
+      margin:34px 0;
+    }
+
+    /* Quote / deck style panel */
+    .panel{
+      margin-top:26px;
+      padding:22px 22px;
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(233,230,223,.06), rgba(233,230,223,.03));
+      border-radius:14px;
+    }
+    .panel .p{ color:rgba(233,230,223,.82); }
+
+    /* Scroll arrow */
+    .scroll{
+      margin-top:26px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:46px;
+      height:46px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      color:var(--muted);
+      text-decoration:none;
+      font-size:18px;
+      animation:breathe 2.6s ease-in-out infinite;
+    }
+    @keyframes breathe{
+      0%,100%{ opacity:.35; transform: translateY(0); }
+      50%{ opacity:.9; transform: translateY(6px); }
+    }
+
+    /* Small footer mark like the deck */
+    .sig{
+      margin-top:34px;
+      color:rgba(233,230,223,.55);
+      font-size:13px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    /* Mobile spacing */
+    @media (max-width:520px){
+      section{ padding-top: 96px; }
+      .panel{ padding:18px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>YAGÑA</header>
+
+  <!-- PAGE 1 / HERO -->
+  <section id="home" aria-label="Home">
+    <div class="stage">
+      <div class="h1">Still brewing</div>
+      <div class="p">YAGÑA is not designed for speed.<br/>It is designed for presence.</div>
+      <a class="scroll" href="#philosophy" aria-label="Scroll to philosophy">↓</a>
+    </div>
+  </section>
+
+  <!-- PAGE 2 / PHILOSOPHY (Deck: your philosophy pages) -->
+  <section id="philosophy" aria-label="Philosophy">
+    <div class="stage">
+      <div class="kicker">The Philosophy</div>
+      <div class="h2">Less noise. Less urgency.<br/>More intention.</div>
+
+      <div class="p">
+        We believe coffee is not a product to be pushed, but a process to be respected.
+        Every decision is restraint. Every release is deliberate.
+      </div>
+
+      <div class="panel">
+        <div class="p">
+          Less performance.<br/>
+          More pause.
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="p">
+        YAGÑA is built for people who choose calm over clutter —
+        and taste over timelines.
+      </div>
+
+      <a class="scroll" href="#coffee" aria-label="Scroll to coffee">↓</a>
+    </div>
+  </section>
+
+  <!-- PAGE 3 / COFFEE (types) -->
+  <section id="coffee" aria-label="Coffee">
+    <div class="stage">
+      <div class="kicker">The Coffee</div>
+      <div class="h2">Roasted with restraint.<br/>Released only when it feels right.</div>
+
+      <div class="p">
+        Our coffee comes from India. It is packed without excess — focused on clarity, balance,
+        and the kind of finish that stays quiet.
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Placeholder “types” layout — you can replace with your deck copy -->
+      <div class="panel">
+        <div class="p">
+          <strong style="font-weight:500;">Signature Range</strong><br/>
+          Clean profiles. Minimal roast. A cup that feels composed.
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <div class="p">
+          <strong style="font-weight:500;">Seasonal Drops</strong><br/>
+          Small releases. Never rushed. Never repeated the same way.
+        </div>
+      </div>
+
+      <a class="scroll" href="#object" aria-label="Scroll to object">↓</a>
+    </div>
+  </section>
+
+  <!-- PAGE 4 / OBJECT -->
+  <section id="object" aria-label="Object">
+    <div class="stage">
+      <div class="kicker">The Object</div>
+      <div class="h2">Designed to be held.<br/>Not advertised.</div>
+
+      <div class="p">
+        Material over gloss.<br/>
+        Silence over instruction.<br/>
+        Presence over persuasion.
+      </div>
+
+      <div class="sig">Still brewing, YAGÑA</div>
+
+      <a class="scroll" href="#contact" aria-label="Scroll to contact">↓</a>
+    </div>
+  </section>
+
+  <!-- PAGE 5 / CONTACT (optional) -->
+  <section id="contact" aria-label="Contact">
+    <div class="stage">
+      <div class="kicker">Contact</div>
+      <div class="h2">Drop a line.</div>
+      <div class="p">
+        <a href="mailto:info@yagna.pl" style="color:var(--text); text-decoration:none; border-bottom:1px solid var(--line);">
+          info@yagna.pl
+        </a>
+      </div>
+      <div class="sig">YAGÑA — Still brewing</div>
+    </div>
+  </section>
+
+</body>
+</html>
